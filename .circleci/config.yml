@@ -1,0 +1,25 @@
+version: 2.1
+
+executors:
+  macos:
+    macos:
+      xcode: "26.2.0"
+
+jobs:
+  check-docker:
+    executor: macos
+    steps:
+      - run:
+          name: Check Docker Installation
+          command: |
+            docker version
+
+      - run:
+          name: List Docker Containers
+          command: |
+            docker compose version
+
+workflows:
+  docker-check-workflow:
+    jobs:
+      - check-docker
