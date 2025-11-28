@@ -4,6 +4,7 @@ executors:
   macos:
     macos:
       xcode: "26.2.0"
+    resource_class: m4pro.medium
 
 jobs:
   check-docker:
