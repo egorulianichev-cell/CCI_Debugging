@@ -1,24 +1,24 @@
 version: 2.1
 
 executors:
-  macos:
-    macos:
-      xcode: "26.2.0"
-    resource_class: m4pro.medium
+  node:
+    docker:
+      - image: cimg/node:20.19.0
+    resource_class: small
 
 jobs:
   check-docker:
-    executor: macos
+    executor: node
     steps:
       - run:
-          name: Check Docker Installation
+          name: Install Yarn
           command: |
-            docker version
+            yarn workspace phoma-scripts install --immutable
 
-      - run:
-          name: List Docker Containers
-          command: |
-            docker compose version
+      # - run:
+      #     name: List Docker Containers
+      #     command: |
+      #       docker compose version
 
 workflows:
   docker-check-workflow:
