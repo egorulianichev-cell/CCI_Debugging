@@ -3,24 +3,20 @@ version: 2.1
 executors:
   node:
     docker:
-      - image: cimg/node:20.19.0
+      - image: cimg/node:22.21
     resource_class: small
 
 jobs:
-  check-docker:
+  test_remote_docker:
     executor: node
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Install Yarn
-          command: |
-            yarn workspace phoma-scripts install --immutable
-
-      # - run:
-      #     name: List Docker Containers
-      #     command: |
-      #       docker compose version
+          name: Check Docker Version
+          command: docker --version
 
 workflows:
   docker-check-workflow:
     jobs:
-      - check-docker
+      - test_remote_docker
