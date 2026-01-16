@@ -10,8 +10,8 @@ jobs:
   test_remote_docker:
     executor: node
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      # - setup_remote_docker:
+      #     docker_layer_caching: true
       - run:
           name: Check Docker Version
           command: docker --version
