@@ -13,7 +13,7 @@ jobs:
       - run:
           name: php extract script
           command: |
-            docker-php-source extract
+            sudo docker-php-source extract
       - run:
           name: run php docker php-test
           command: |
