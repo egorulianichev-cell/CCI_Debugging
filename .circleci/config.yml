@@ -1,22 +1,21 @@
 version: 2.1
 
 executors:
-  node:
+  php:
     docker:
-      - image: cimg/node:22.21
+      - image: cimg/php:8.3.30
     resource_class: small
 
 jobs:
-  test_remote_docker:
-    executor: node
+  php-test: 
+    executor: php
     steps:
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
       - run:
-          name: Check Docker Version
-          command: docker --version
+          name: run php docker php-test
+          command: |
+            docker-php-ext-install zip bcmath pdo_mysql
 
 workflows:
   docker-check-workflow:
     jobs:
-      - test_remote_docker
+      - php-test
