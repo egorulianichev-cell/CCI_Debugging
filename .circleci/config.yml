@@ -13,7 +13,7 @@ jobs:
       - run:
           name: run php docker php-test
           command: |
-            docker-php-ext-install zip bcmath pdo_mysql
+            sudo docker-php-ext-install zip bcmath pdo_mysql
 
 workflows:
   docker-check-workflow:
