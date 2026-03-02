@@ -11,6 +11,10 @@ jobs:
     executor: php
     steps:
       - run:
+          name: php extract script
+          command: |
+            docker-php-source extract
+      - run:
           name: run php docker php-test
           command: |
             sudo docker-php-ext-install zip bcmath pdo_mysql
