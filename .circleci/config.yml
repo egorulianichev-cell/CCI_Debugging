@@ -1,7 +1,7 @@
 version: 2.1
 
 executors:
-  php:
+  base:
     docker:
       - image: cimg/base:2026.03
     resource_class: small
