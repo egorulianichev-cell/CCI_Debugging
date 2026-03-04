@@ -25,7 +25,12 @@ jobs:
       - run:
           name: aws acc id
           command: |
-            echo "${AWS_ACCOUNT_ID}"
+            printenv | grep AWS
+
+      - run:
+          name: aws cli
+          command: |
+            env | grep AWS
 workflows:
   docker-check-workflow:
     jobs:
