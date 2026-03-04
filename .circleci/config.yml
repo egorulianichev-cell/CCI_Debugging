@@ -19,18 +19,11 @@ jobs:
   #         command: |
   #           sudo docker-php-ext-install zip bcmath pdo_mysql
 
-  aws_acc_id:
-    executor: base
+  new_test_job:
+    docker:
+      - image: ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/ci_images/circleci-runner:1.6
     steps:
-      - run:
-          name: aws acc id
-          command: |
-            printenv
-
-      - run:
-          name: aws cli
-          command: |
-            env | grep AWS
+      - run: env | sort
 workflows:
   docker-check-workflow:
     jobs:
