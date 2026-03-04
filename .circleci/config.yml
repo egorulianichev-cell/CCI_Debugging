@@ -25,7 +25,7 @@ jobs:
       - run:
           name: aws acc id
           command: |
-            echo ${AWS_ACCOUNT_ID}
+            echo "${AWS_ACCOUNT_ID}"
 workflows:
   docker-check-workflow:
     jobs:
