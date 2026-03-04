@@ -19,7 +19,7 @@ jobs:
   #         command: |
   #           sudo docker-php-ext-install zip bcmath pdo_mysql
 
-  new_test_job:
+  aws_acc_id:
     docker:
       - image: ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/ci_images/circleci-runner:1.6
     steps:
