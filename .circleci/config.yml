@@ -3,23 +3,30 @@ version: 2.1
 executors:
   php:
     docker:
-      - image: cimg/php:8.3.30
+      - image: cimg/base
     resource_class: small
 
 jobs:
-  php-test: 
-    executor: php
+  # php-test: 
+  #   executor: php
+  #   steps:
+  #     - run:
+  #         name: php extract script
+  #         command: |
+  #           sudo docker-php-source extract
+  #     - run:
+  #         name: run php docker php-test
+  #         command: |
+  #           sudo docker-php-ext-install zip bcmath pdo_mysql
+
+  aws_acc_id:
+    executor: base
     steps:
       - run:
-          name: php extract script
+          name: aws acc id
           command: |
-            sudo docker-php-source extract
-      - run:
-          name: run php docker php-test
-          command: |
-            sudo docker-php-ext-install zip bcmath pdo_mysql
-
+            echo ${AWS_ACCOUNT_ID}
 workflows:
   docker-check-workflow:
     jobs:
-      - php-test
+      - aws_acc_id
