@@ -3,7 +3,7 @@ version: 2.1
 executors:
   php:
     docker:
-      - image: cimg/base
+      - image: cimg/base:2026.03
     resource_class: small
 
 jobs:
