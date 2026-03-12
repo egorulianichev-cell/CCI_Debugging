@@ -18,12 +18,15 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install
       - run:
-          name: Configure AWS Secret Access Key
+          name: set env
           command: |
             echo 'export AWS_SECRET_ACCESS_KEY="cfasfsfgsf"'
             echo $AWS_SECRET_ACCESS_KEY
-            aws configure set aws_secret_access_key \
-            $AWS_SECRET_ACCESS_KEY \
+      - run:
+          name: Configure AWS Secret Access Key
+          command: |
+            aws configure set aws_secret_access_key \\
+            $AWS_SECRET_ACCESS_KEY \\
             --profile default
 
       - run: 
