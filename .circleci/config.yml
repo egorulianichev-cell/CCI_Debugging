@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Configure AWS Secret Access Key
           command: |
-            export AWS_SECRET_ACCESS_KEY="cfasfsfgsf"
+            echo 'export AWS_SECRET_ACCESS_KEY="cfasfsfgsf"'
             echo $AWS_SECRET_ACCESS_KEY
             aws configure set aws_secret_access_key \\
             $AWS_SECRET_ACCESS_KEY \\
