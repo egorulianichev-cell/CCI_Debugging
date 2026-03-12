@@ -7,24 +7,30 @@ executors:
     resource_class: small
 
 jobs:
-  # php-test: 
-  #   executor: php
-  #   steps:
-  #     - run:
-  #         name: php extract script
-  #         command: |
-  #           sudo docker-php-source extract
-  #     - run:
-  #         name: run php docker php-test
-  #         command: |
-  #           sudo docker-php-ext-install zip bcmath pdo_mysql
-
-  aws_acc_id:
-    docker:
-      - image: ${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/ci_images/circleci-runner:1.6
+  set_aws_id:
+    executor: base
     steps:
-      - run: env | sort
+
+      - run:
+          name: install aws cli
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+      - run:
+          name: Configure AWS Secret Access Key
+          command: |
+            AWS_SECRET_ACCESS_KEY=cfasfsfgsf
+            aws configure set aws_secret_access_key \\
+            $AWS_SECRET_ACCESS_KEY \\
+            --profile default
+
+      - run: 
+          name: check aws configure
+          command: |
+            aws configure list
+
 workflows:
-  docker-check-workflow:
+  check-aws-cli-installation:
     jobs:
-      - aws_acc_id
+      - set_aws_id
