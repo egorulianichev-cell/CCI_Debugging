@@ -7,34 +7,32 @@ executors:
     resource_class: small
 
 jobs:
-  set_aws_id:
+  test_count:
     executor: base
     steps:
-
+      - checkout
       - run:
-          name: install aws cli
+          name: Add Test Vars
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-      - run:
-          name: set env
-          command: |
-            echo 'export AWS_SECRET_ACCESS_KEY="cfasfsfgsf"'
-            echo $AWS_SECRET_ACCESS_KEY
-      - run:
-          name: Configure AWS Secret Access Key
-          command: |
-            aws configure set aws_secret_access_key \\
-            $AWS_SECRET_ACCESS_KEY \\
-            --profile default
+            echo 'export TEST_VAR="Hello World!"'
 
       - run: 
-          name: check aws configure
+          name: Display Var
+          command:
+            echo "What a beautiful day! $TEST_VAR"
+            echo 'What a beautiful day! $TEST_VAR'
+            echo 'What a beautiful day! ${TEST_VAR}'
+      
+      - run:
+          name: Check file exists
           command: |
-            aws configure list
+            if [ -e "tests.xml" ] ; then
+              echo "tests.xml is a file!!"
+            fi
+      - store_test_results: 
+          path: test.xml
 
 workflows:
   check-aws-cli-installation:
     jobs:
-      - set_aws_id
+      - test_count
