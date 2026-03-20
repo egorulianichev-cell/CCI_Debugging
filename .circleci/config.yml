@@ -27,8 +27,16 @@ jobs:
             if [ -e "tests.xml" ] ; then
               echo "tests.xml is a file!!"
             fi
-      - store_test_results: 
-          path: tests.xml
+      - run:
+          name: Remove system-out tags from JUnit XML
+          command: |
+            cp tests.xml tests-original.xml
+            awk '/<system-out>/{skip=1} !skip{print} /<\/system-out>/{skip=0}' tests.xml > results.xml
+            ls -l
+      - store_artifacts:
+          path: tests-original.xml
+      - store_test_results:
+          path: results.xml
 
 workflows:
   check-tests:
