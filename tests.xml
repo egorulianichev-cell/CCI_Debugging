@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <testsuite errors="0" failures="1" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="9" time="2,151.671">
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen" time="177.516">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+BC@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 2" time="226.65">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+NB@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 3" time="437.814">
         <failure message="Expected condition failed: waiting for presence of element located by: By.id: com.c51:id/offerListRecyclerView (tried for 30 second(s) with 500 milliseconds interval)" type="org.openqa.selenium.TimeoutException"><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
@@ -112,15 +130,69 @@ Session ID: 39a358e8-8961-427b-9bb7-ee2d7a5bfb51
 ]]></failure>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 4" time="217.681">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+ON@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 5" time="210.8">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+PE@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 6" time="210.011">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+SK@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 7" time="211.061">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+NT@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 8" time="210.323">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+NU@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
     <testcase classname="Age Gated Offer 2 (AgeGatedOffers2_c51.feature)" name="TC0286 CA(BC,NB,NL,NS,ON,PE,SK,NT,NU,YT) logged in user selects age gated offer on redeem screen 9" time="212.49">
+        <system-out><![CDATA[Given User first time open a fresh installed Checkout 51 app................passed
+When User email=TC0286+YT@checkout51.com login with a balance of $0.00......passed
+And User taps on Redeem tab.................................................passed
+And User select offer name=Age Gate Offer EN from redeem screen.............passed
+And User should see the Age confirmation modal with header=Are you 19 or older? and subHeader=You must be of legal drinking age in your province to redeem alcohol offers..passed
+And User taps on NO button on Age confirmation modal........................passed
+Then User goes back to Grocery Screen.......................................passed
+And User logs out of the app................................................passed
+]]></system-out>
     </testcase>
 </testsuite>
