@@ -14,14 +14,12 @@ jobs:
       - run:
           name: Add Test Vars
           command: |
-            echo 'export TEST_VAR="Hello World!"'
+            echo 'export TEST_VAR="Hello World!"' >> $BASH_ENV
 
       - run: 
           name: Display Var
           command:
             echo "What a beautiful day! $TEST_VAR"
-            echo 'What a beautiful day! $TEST_VAR'
-            echo 'What a beautiful day! ${TEST_VAR}'
       
       - run:
           name: Check file exists
@@ -30,9 +28,9 @@ jobs:
               echo "tests.xml is a file!!"
             fi
       - store_test_results: 
-          path: test.xml
+          path: tests.xml
 
 workflows:
-  check-aws-cli-installation:
+  check-tests:
     jobs:
       - test_count
