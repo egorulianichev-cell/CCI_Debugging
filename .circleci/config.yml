@@ -7,38 +7,18 @@ executors:
     resource_class: small
 
 jobs:
-  test_count:
+  docker_dlc:
     executor: base
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Add Test Vars
+          name: Build Image
           command: |
-            echo 'export TEST_VAR="Hello World!"' >> $BASH_ENV
-
-      - run: 
-          name: Display Var
-          command:
-            echo "What a beautiful day! $TEST_VAR"
-      
-      - run:
-          name: Check file exists
-          command: |
-            if [ -e "tests.xml" ] ; then
-              echo "tests.xml is a file!!"
-            fi
-      - run:
-          name: Remove system-out tags from JUnit XML
-          command: |
-            cp tests.xml tests-original.xml
-            awk '/<system-out>/{skip=1} !skip{print} /<\/system-out>/{skip=0}' tests.xml > results.xml
-            ls -l
-      - store_artifacts:
-          path: tests-original.xml
-      - store_test_results:
-          path: results.xml
+            docker build . -f Dockerfile
 
 workflows:
   check-tests:
     jobs:
-      - test_count
+      - docker_dlc
