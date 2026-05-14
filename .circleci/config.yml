@@ -7,7 +7,7 @@ executors:
     resource_class: small
   macos-default:
     macos:
-      xcode: 26.5
+      xcode: [26.5,26.3]
       resource_class: m4pro.medium
 jobs:
 
