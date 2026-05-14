@@ -6,9 +6,12 @@ executors:
       - image: cimg/base:2026.03
     resource_class: small
   macos-default:
+    parameters:
+      xcode-version:
+        type: string
     macos:
-      xcode: [26.5,26.3]
-      resource_class: m4pro.medium
+      xcode: << parameters.xcode-version >>
+    resource_class: m4pro.medium
 jobs:
 
   verify-ios-sdk:
@@ -37,7 +40,12 @@ jobs:
 workflows:
   check-xcode-ios:
     jobs:
-      - verify-ios-sdk
+      - verify-ios-sdk:
+          matrix:
+            parameters:
+              xcode-version: ["26.5","26.3"]
+
+
   # check-tests:
   #   jobs:
   #     - docker_dlc
