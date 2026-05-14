@@ -5,17 +5,15 @@ executors:
     docker:
       - image: cimg/base:2026.03
     resource_class: small
-  macos-default:
+jobs:
+
+  verify-ios-sdk:
     parameters:
-      xcode-version:
+      xcode-version: 
         type: string
     macos:
       xcode: << parameters.xcode-version >>
     resource_class: m4pro.medium
-jobs:
-
-  verify-ios-sdk:
-    executor: macos-default
     steps:
       - run:
           name: List installed iOS SDK
