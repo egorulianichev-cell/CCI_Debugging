@@ -1,0 +1,43 @@
+version: 2.1
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:2026.03
+    resource_class: small
+  macos-default:
+    macos:
+      xcode: 26.5
+      resource_class: m4pro.medium
+jobs:
+
+  verify-ios-sdk:
+    executor: macos-default
+    steps:
+      - run:
+          name: List installed iOS SDK
+          command: |
+            xcodebuild -showsdks | grep -i iphoneos
+      - run:
+          name: Check Xcode active iOS version
+          command: |
+            xcode-select -p
+  # docker_dlc:
+  #   executor: base
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: Build Image
+  #         command: |
+  #           docker build . -f Dockerfile
+
+
+workflows:
+  check-xcode-ios:
+    jobs:
+      - verify-ios-sdk
+  # check-tests:
+  #   jobs:
+  #     - docker_dlc
