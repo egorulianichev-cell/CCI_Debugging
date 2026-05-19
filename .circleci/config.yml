@@ -18,6 +18,18 @@ jobs:
               sleep 10
             done
     parallelism: 1
+  
+  parallelism-3:
+    executor: container-runner
+    steps:
+      - run:
+          name: Run containers with parallelism degree of 3
+          command: |
+            for I in {1..30}; do
+              echo "This is $I iteration"
+              sleep 10
+            done
+    parallelism: 3
 
 workflows:
   test-concurrency-usage:
