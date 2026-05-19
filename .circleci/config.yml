@@ -17,7 +17,7 @@ jobs:
               echo "This is $I iteration"
               sleep 10
             done
-    parallelism: 1
+    parallelism: 10
   
   parallelism-3:
     executor: container-runner
@@ -29,7 +29,7 @@ jobs:
               echo "This is $I iteration"
               sleep 10
             done
-    parallelism: 3
+    parallelism: 10
 
 workflows:
   test-concurrency-usage:
