@@ -14,7 +14,7 @@ jobs:
           name: Run container with parallelism degree of 1
           command: |
             for I in {1..30}; do
-              echo This is $I iteration"
+              echo "This is $I iteration"
               sleep 10
             done
     parallelism: 1
