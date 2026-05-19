@@ -13,10 +13,10 @@ jobs:
       - run:
           name: Run container with parallelism degree of 1
           command: |
-            "for I in {1..30}; do
-              echo "This is $I iteration";
+            'for I in {1..30}; do
+              echo This is $I iteration";
               sleep 10;
-            done"
+            done'
     parallelism: 1
 
 workflows:
