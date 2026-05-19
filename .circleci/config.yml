@@ -35,3 +35,4 @@ workflows:
   test-concurrency-usage:
     jobs:
       - parallelism-1
+      - parallelism-3
