@@ -5,45 +5,19 @@ executors:
     docker:
       - image: cimg/base:2026.03
     resource_class: small
-jobs:
 
-  verify-ios-sdk:
-    parameters:
-      xcode-version: 
-        type: string
-    macos:
-      xcode: << parameters.xcode-version >>
-    resource_class: m4pro.medium
-    steps:
-      - run:
-          name: List installed iOS SDK
-          command: |
-            xcodebuild -showsdks | grep -i iphoneos
-      - run:
-          name: Check Xcode active iOS version
-          command: |
-            xcode-select -p
-  # docker_dlc:
-  #   executor: base
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         docker_layer_caching: true
-  #     - run:
-  #         name: Build Image
-  #         command: |
-  #           docker build . -f Dockerfile
+orbs:
+    jq: circleci/jq@3.0.0
+
+jobs:
+  install-jq:
+    executor: base
+    steps: 
+      - jq/install:
+          version: jq-1.7
 
 
 workflows:
-  check-xcode-ios:
-    jobs:
-      - verify-ios-sdk:
-          matrix:
-            parameters:
-              xcode-version: ["26.5.0","26.3.0"]
-
-
-  # check-tests:
-  #   jobs:
-  #     - docker_dlc
+  test-jq-install:
+    jobs: 
+      - install-jq
