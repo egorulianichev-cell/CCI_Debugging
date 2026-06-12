@@ -32,27 +32,32 @@ jobs:
     steps:
       - run: echo "depends on after-group"
 
-job-groups:
-  my-serial-group:
-    jobs:
-      - step-one
-      - step-two:
-          requires:
-            - step-one
+# job-groups:
+#   my-serial-group:
+#     jobs:
+#       - step-one
+#       - step-two:
+#           requires:
+#             - step-one
 
 workflows:
   demo:
     jobs:
       - prepare
-
-      - my-serial-group:
-          serial-group: << pipeline.project.slug >>/demo-serial
+      - step-one:
           requires:
             - prepare
+      - step-two:
+          requires:
+            - step-one
+      # - my-serial-group:
+      #     serial-group: << pipeline.project.slug >>/demo-serial
+      #     requires:
+      #       - prepare
 
       - after-group:
           requires:
-            - my-serial-group
+            - step-two
 
       - final:
           requires:
