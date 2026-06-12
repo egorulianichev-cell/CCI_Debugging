@@ -19,7 +19,8 @@ jobs:
   step-two:
     executor: default
     steps:
-      - run: echo "inside serial group - step two (leaf job)"
+      # - run: echo "inside serial group - step two (leaf job)"
+      - run: exit 127
 
   after-group:
     executor: default
