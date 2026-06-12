@@ -1,23 +1,58 @@
 version: 2.1
 
 executors:
-  base:
+  default:
     docker:
-      - image: cimg/base:2026.03
-    resource_class: small
-
-orbs:
-    jq: circleci/jq@3.0.0
+      - image: cimg/base:stable
 
 jobs:
-  install-jq:
-    executor: base
-    steps: 
-      - jq/install:
-          version: jq-1.7
+  prepare:
+    executor: default
+    steps:
+      - run: echo "standalone job before serial group"
 
+  step-one:
+    executor: default
+    steps:
+      - run: echo "inside serial group - step one"
+
+  step-two:
+    executor: default
+    steps:
+      - run: echo "inside serial group - step two (leaf job)"
+
+  after-group:
+    executor: default
+    steps:
+      - run: echo "outside serial group - depends on group compiled serial-end success"
+
+  final:
+    executor: default
+    steps:
+      - run: echo "depends on after-group"
+
+job-groups:
+  my-serial-group:
+    jobs:
+      - step-one
+      - step-two:
+          requires:
+            - step-one
 
 workflows:
-  test-jq-install:
-    jobs: 
-      - install-jq
+  demo:
+    jobs:
+      - prepare
+
+      - my-serial-group:
+          serial-group: << pipeline.project.slug >>/demo-serial
+          requires:
+            - prepare
+
+      - after-group:
+          requires:
+            - my-serial-group
+
+      - final:
+          requires:
+            - after-group
