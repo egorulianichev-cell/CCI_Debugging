@@ -17,8 +17,27 @@ jobs:
           name: Clone ad_astra_test_stand over SSH
           command: |
             mkdir -p ~/deps && cd ~/deps
-            GIT_SSH_COMMAND='ssh -o IdentitiesOnly=yes' \
-              git clone --depth 1 git@github.com:egorulianichev-cell/ad_astra_test_stand.git
+
+            echo "=== ~/.ssh contents ==="
+            ls -la ~/.ssh || true
+            echo "=== ssh-agent keys ==="
+            ssh-add -l || true
+
+            KEY=$(ls ~/.ssh/id_ed25519_* ~/.ssh/id_rsa_* 2>/dev/null \
+              | grep -v '\.pub$' | grep -v '/id_rsa$' | head -1)
+            echo "Using key: ${KEY:-default/agent (no additional key file found)}"
+
+            if [ -n "$KEY" ]; then
+              GIT_TRACE=1 \
+              GIT_SSH_COMMAND="ssh -vvv -i $KEY -o IdentitiesOnly=yes" \
+                git clone --depth 1 --progress \
+                git@github.com:egorulianichev-cell/ad_astra_test_stand.git
+            else
+              GIT_TRACE=1 \
+              GIT_SSH_COMMAND='ssh -vvv -o IdentitiesOnly=yes' \
+                git clone --depth 1 --progress \
+                git@github.com:egorulianichev-cell/ad_astra_test_stand.git
+            fi
 
       - run:
           name: Example build step
