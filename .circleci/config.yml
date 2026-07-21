@@ -19,25 +19,23 @@ jobs:
             mkdir -p ~/deps && cd ~/deps
 
             echo "=== ~/.ssh contents ==="
-            ls -la ~/.ssh || true
+            ls -la ~/.ssh
             echo "=== ssh-agent keys ==="
             ssh-add -l || true
+            echo "=== ssh config ==="
+            cat ~/.ssh/config || true
 
-            KEY=$(ls ~/.ssh/id_ed25519_* ~/.ssh/id_rsa_* 2>/dev/null \
-              | grep -v '\.pub$' | grep -v '/id_rsa$' | head -1)
-            echo "Using key: ${KEY:-default/agent (no additional key file found)}"
+            # Prefer additional key (id_rsa_<md5>), not checkout id_rsa
+            KEY=$(find ~/.ssh -maxdepth 1 -type f \
+              \( -name 'id_rsa_*' -o -name 'id_ed25519_*' -o -name 'id_ecdsa_*' \) \
+              ! -name '*.pub' | head -1)
+            echo "Using key: ${KEY:-NONE}"
+            test -n "$KEY" || { echo "ERROR: no additional key file"; exit 1; }
 
-            if [ -n "$KEY" ]; then
-              GIT_TRACE=1 \
-              GIT_SSH_COMMAND="ssh -vvv -i $KEY -o IdentitiesOnly=yes" \
-                git clone --depth 1 --progress \
-                git@github.com:egorulianichev-cell/ad_astra_test_stand.git
-            else
-              GIT_TRACE=1 \
-              GIT_SSH_COMMAND='ssh -vvv -o IdentitiesOnly=yes' \
-                git clone --depth 1 --progress \
-                git@github.com:egorulianichev-cell/ad_astra_test_stand.git
-            fi
+            GIT_TRACE=1 \
+            GIT_SSH_COMMAND="ssh -vvv -i $KEY -o IdentitiesOnly=yes" \
+              git clone --depth 1 --progress \
+              git@github.com:egorulianichev-cell/ad_astra_test_stand.git
 
       - run:
           name: Example build step
