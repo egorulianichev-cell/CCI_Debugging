@@ -11,7 +11,7 @@ jobs:
       # 2) Load an additional SSH key for cloning other private repos
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:7z0CaWk83Drdfac7z0uvR1pSihDj3mdxFPWlyUTrDlA"
+            - "SHA256:0zvykFzanVqR/KQkNX8Yi1+dGSLZyZZ2rtgHrpPFEuY"
 
       - run:
           name: Clone ad_astra_test_stand over SSH
