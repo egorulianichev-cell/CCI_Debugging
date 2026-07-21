@@ -1,64 +1,32 @@
 version: 2.1
 
-executors:
-  default:
+jobs:
+  build:
     docker:
       - image: cimg/base:stable
-
-jobs:
-  prepare:
-    executor: default
     steps:
-      - run: echo "standalone job before serial group"
+      # 1) Clone this project's repo (uses the project's checkout key)
+      - checkout
 
-  step-one:
-    executor: default
-    steps:
-      - run: echo "inside serial group - step one"
+      # 2) Load an additional SSH key for cloning other private repos
+      - add_ssh_keys:
+          fingerprints:
+            - "SHA256:7z0CaWk83Drdfac7z0uvR1pSihDj3mdxFPWlyUTrDlA"
 
-  step-two:
-    executor: default
-    steps:
-      # - run: echo "inside serial group - step two (leaf job)"
-      - run: exit 127
+      - run:
+          name: Clone ad_astra_test_stand over SSH
+          command: |
+            mkdir -p ~/deps && cd ~/deps
+            GIT_SSH_COMMAND='ssh -o IdentitiesOnly=yes' \
+              git clone --depth 1 git@github.com:egorulianichev-cell/ad_astra_test_stand.git
 
-  after-group:
-    executor: default
-    steps:
-      - run: echo "outside serial group - depends on group compiled serial-end success"
-
-  final:
-    executor: default
-    steps:
-      - run: echo "depends on after-group"
-
-# job-groups:
-#   my-serial-group:
-#     jobs:
-#       - step-one
-#       - step-two:
-#           requires:
-#             - step-one
+      - run:
+          name: Example build step
+          command: |
+            ls -la
+            ls -la ~/deps/PRIVATE-REPO
 
 workflows:
-  demo:
+  main:
     jobs:
-      - prepare
-      - step-one:
-          requires:
-            - prepare
-      - step-two:
-          requires:
-            - step-one
-      # - my-serial-group:
-      #     serial-group: << pipeline.project.slug >>/demo-serial
-      #     requires:
-      #       - prepare
-
-      - after-group:
-          requires:
-            - step-two
-
-      - final:
-          requires:
-            - after-group
+      - build
