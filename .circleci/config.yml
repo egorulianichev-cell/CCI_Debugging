@@ -1,49 +1,57 @@
 version: 2.1
-
+# Test job: verifies apt-get can download a large package (>5 MB) from the
+# Ubuntu mirror on an ubuntu-2604:current / medium.gen2 machine.
+# Purpose: surface mirror connectivity issues (e.g. us-east-1.ec2.archive.ubuntu.com
+# size-mismatch / timeout failures).
 jobs:
-  build:
-    docker:
-      - image: cimg/base:stable
+  test-apt-large-package:
+    machine:
+      image: ubuntu-2604:current
+    resource_class: medium.gen2
     steps:
-      # 1) Clone this project's repo (uses the project's checkout key)
-      - checkout
-
-      # 2) Load an additional SSH key for cloning other private repos
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:0zvykFzanVqR/KQkNX8Yi1+dGSLZyZZ2rtgHrpPFEuY"
-
       - run:
-          name: Clone ad_astra_test_stand over SSH
+          name: Show mirror configuration
           command: |
-            mkdir -p ~/deps && cd ~/deps
-
-            echo "=== ~/.ssh contents ==="
-            ls -la ~/.ssh
-            echo "=== ssh-agent keys ==="
-            ssh-add -l || true
-            echo "=== ssh config ==="
-            cat ~/.ssh/config || true
-
-            # Prefer additional key (id_rsa_<md5>), not checkout id_rsa
-            KEY=$(find ~/.ssh -maxdepth 1 -type f \
-              \( -name 'id_rsa_*' -o -name 'id_ed25519_*' -o -name 'id_ecdsa_*' \) \
-              ! -name '*.pub' | head -1)
-            echo "Using key: ${KEY:-NONE}"
-            test -n "$KEY" || { echo "ERROR: no additional key file"; exit 1; }
-
-            GIT_TRACE=1 \
-            GIT_SSH_COMMAND="ssh -vvv -i $KEY -o IdentitiesOnly=yes" \
-              git clone --depth 1 --progress \
-              git@github.com:egorulianichev-cell/ad_astra_test_stand.git
-
+            echo "=== /etc/apt/sources.list ==="
+            cat /etc/apt/sources.list 2>/dev/null || echo "(empty)"
+            echo ""
+            echo "=== /etc/apt/sources.list.d/ ==="
+            cat /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources 2>/dev/null || echo "(empty)"
       - run:
-          name: Example build step
+          name: Check mirror reachability
           command: |
-            ls -la
-            ls -la ~/deps/PRIVATE-REPO
-
+            MIRROR=$(grep -hEo 'https?://[^/]+' /etc/apt/sources.list /etc/apt/sources.list.d/*.list \
+              /etc/apt/sources.list.d/*.sources 2>/dev/null | sort -u | head -1)
+            echo "Primary mirror: ${MIRROR}"
+            echo "Probing root..."
+            curl -sS --max-time 10 "${MIRROR}/" -o /dev/null \
+              -w "HTTP %{http_code}  size=%{size_download}B  time=%{time_total}s\n" || true
+            echo "Probing noble-updates InRelease..."
+            curl -sS --max-time 10 \
+              "${MIRROR}/ubuntu/dists/noble-updates/InRelease" -o /dev/null \
+              -w "HTTP %{http_code}  size=%{size_download}B  time=%{time_total}s\n" || true
+      - run:
+          name: apt-get update
+          command: sudo apt-get update
+      - run:
+          name: Install large package (ffmpeg, ~30 MB download)
+          command: |
+            # ffmpeg is reliably >5 MB and exercises the universe/multiverse mirrors.
+            # Use DEBIAN_FRONTEND=noninteractive to avoid interactive prompts.
+            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ffmpeg
+      - run:
+          name: Verify package size downloaded
+          command: |
+            INSTALLED=$(dpkg-query -W -f='${Installed-Size}\n' ffmpeg 2>/dev/null || echo 0)
+            echo "Installed size: ${INSTALLED} KB"
+            # Sanity-check: installed size should be well over 5 MB (5120 KB)
+            if [ "${INSTALLED}" -lt 5120 ]; then
+              echo "ERROR: installed package is smaller than expected (< 5 MB)" >&2
+              exit 1
+            fi
+            echo "OK: package is >= 5 MB"
+            ffmpeg -version | head -2
 workflows:
-  main:
+  mirror-health-check:
     jobs:
-      - build
+      - test-apt-large-package
